@@ -1,0 +1,27 @@
+
+syntax = "proto3";
+
+service BlobService {
+  rpc Push(stream Chunk) returns (PushStatus) {}
+  rpc Get(GetRequest) returns (stream Chunk) {}
+}
+
+message Chunk {
+  string Id = 1;
+  bytes Content = 2;
+}
+
+enum PushStatusCode {
+  Unknown = 0;
+  Ok = 1;
+  Failed = 2;
+}
+
+message PushStatus {
+  string Message = 1;
+  PushStatusCode Code = 2;
+}
+
+message GetRequest {
+  string Id = 1;
+}
