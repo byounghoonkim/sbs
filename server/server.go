@@ -4,7 +4,14 @@ import (
 	blob "github.com/shoebillk/sbs/blob"
 )
 
+// Server structure implements BlobServiceServer.
 type Server struct {
+	provider Provider
+}
+
+// NewServer return Server object.
+func NewServer(provider Provider) *Server {
+	return &Server{provider}
 }
 
 // Push handles push call from client.
