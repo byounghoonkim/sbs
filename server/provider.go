@@ -1,10 +1,9 @@
 package server
 
-import (
-	"io"
-)
+import "io"
 
+// Provider interface defines Blob Provider's Methods.
 type Provider interface {
-	Create(Id string) (io.WriteCloser, error)
-	Open(Id string) (io.ReadCloser, error)
+	Create(ID string) (io.WriteCloser, error)
+	Open(ID string) (io.ReadCloser, error)
 }
