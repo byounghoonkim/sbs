@@ -19,18 +19,31 @@ func NewServer(provider Provider) *Server {
 // Push handles push call from client.
 func (s *Server) Push(stream blob.BlobService_PushServer) error {
 
+	var wc io.WriteCloser
 	for {
 		chunk, err := stream.Recv()
 		if err == io.EOF {
-			return stream.SendAndClose(&blob.PushStatus{})
+			return stream.SendAndClose(&blob.PushStatus{
+				Message: "OK",
+				Code:    blob.PushStatusCode_Ok,
+			})
 		}
 		if err != nil {
 			return err
 		}
 
-		//TODO handle content
-		chunk = chunk
+		if wc == nil {
+			wc, err = s.provider.Create(chunk.Id)
+			if err != nil {
+				return err
+			}
+			defer wc.Close()
+		}
 
+		_, err = wc.Write(chunk.Content)
+		if err != nil {
+			return err
+		}
 	}
 
 }

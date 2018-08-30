@@ -35,7 +35,10 @@ func TestPush(t *testing.T) {
 	mockPushserver := mock_blob.NewMockBlobService_PushServer(ctrl)
 	mockPushserver.EXPECT().Recv().Return(&chunk, nil)
 	mockPushserver.EXPECT().Recv().Return(nil, io.EOF)
-	mockPushserver.EXPECT().SendAndClose(&blob.PushStatus{}).Return(nil)
+	mockPushserver.EXPECT().SendAndClose(&blob.PushStatus{
+		Message: "OK",
+		Code:    blob.PushStatusCode_Ok,
+	}).Return(nil)
 
 	err := s.Push(mockPushserver)
 
