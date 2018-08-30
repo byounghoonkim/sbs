@@ -45,3 +45,19 @@ func TestPush(t *testing.T) {
 	assert.Equal(t, err, nil)
 
 }
+
+func TestGet(t *testing.T) {
+	fb := NewFileBase(".").WithFs(afero.NewMemMapFs())
+	s := NewServer(fb)
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	mockGetserver := mock_blob.NewMockBlobService_GetServer(ctrl)
+
+	req := blob.GetRequest{Id: "test"}
+
+	err := s.Get(&req, mockGetserver)
+
+	assert.Equal(t, err, nil)
+}

@@ -1,6 +1,7 @@
 package server
 
 import (
+	"errors"
 	"io"
 
 	blob "github.com/shoebillk/sbs/blob"
@@ -50,5 +51,6 @@ func (s *Server) Push(stream blob.BlobService_PushServer) error {
 
 // Get handles get request from client.
 func (s *Server) Get(req *blob.GetRequest, stream blob.BlobService_GetServer) error {
-	return nil
+	// TODO implement
+	return errors.New("Not implemented")
 }
