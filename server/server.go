@@ -1,6 +1,8 @@
 package server
 
 import (
+	"io"
+
 	blob "github.com/shoebillk/sbs/blob"
 )
 
@@ -16,7 +18,21 @@ func NewServer(provider Provider) *Server {
 
 // Push handles push call from client.
 func (s *Server) Push(stream blob.BlobService_PushServer) error {
-	return nil
+
+	for {
+		chunk, err := stream.Recv()
+		if err == io.EOF {
+			return stream.SendAndClose(&blob.PushStatus{})
+		}
+		if err != nil {
+			return err
+		}
+
+		//TODO handle content
+		chunk = chunk
+
+	}
+
 }
 
 // Get handles get request from client.
