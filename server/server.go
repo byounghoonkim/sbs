@@ -1,7 +1,6 @@
 package server
 
 import (
-	"errors"
 	"io"
 
 	blob "github.com/shoebillk/sbs/blob"
@@ -51,6 +50,33 @@ func (s *Server) Push(stream blob.BlobService_PushServer) error {
 
 // Get handles get request from client.
 func (s *Server) Get(req *blob.GetRequest, stream blob.BlobService_GetServer) error {
-	// TODO implement
-	return errors.New("Not implemented")
+
+	b, err := s.provider.Open(req.Id)
+	if err != nil {
+		return err
+	}
+	defer b.Close()
+
+	chunk := blob.Chunk{
+		Id:      req.Id,
+		Content: make([]byte, 4048),
+	}
+
+	for {
+		n, err := b.Read(chunk.Content)
+		if err != nil && err != io.EOF {
+			return err
+		}
+
+		if n > 0 {
+			if nil != stream.Send(&chunk) {
+				return err
+			}
+		}
+
+		if err == io.EOF {
+			return nil
+		}
+
+	}
 }

@@ -47,7 +47,10 @@ func TestPush(t *testing.T) {
 }
 
 func TestGet(t *testing.T) {
-	fb := NewFileBase(".").WithFs(afero.NewMemMapFs())
+	fs := afero.NewMemMapFs()
+	afero.WriteFile(fs, "./test", []byte("aaaaaaaaaaaaaaaaaaaaaaaaaa"), 0644)
+
+	fb := NewFileBase(".").WithFs(fs)
 	s := NewServer(fb)
 
 	ctrl := gomock.NewController(t)
@@ -56,6 +59,7 @@ func TestGet(t *testing.T) {
 	mockGetserver := mock_blob.NewMockBlobService_GetServer(ctrl)
 
 	req := blob.GetRequest{Id: "test"}
+	mockGetserver.EXPECT().Send(gomock.Any()).Return(nil)
 
 	err := s.Get(&req, mockGetserver)
 
