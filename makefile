@@ -8,6 +8,9 @@ build:
 
 
 mockgen:
-	mockgen github.com/shoebillk/sbs/blob BlobService_PushServer,BlobService_GetServer > ./mock_blob/mock_blob.go
+	mockgen github.com/shoebillk/sbs/blob \
+		BlobServiceClient,BlobService_PushClient,BlobService_GetClient,BlobServiceServer,BlobService_PushServer,BlobService_GetServer \
+		> ./mock_blob/mock_blob.go
+
 
 
