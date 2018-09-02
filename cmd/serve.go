@@ -22,12 +22,12 @@ var serveCmd = &cobra.Command{
 
 		port, err := cmd.Flags().GetInt("port")
 		if err != nil {
-			log.Fatalf("failed to get port number", err)
+			log.Fatalf("failed to get port number: %v", err)
 		}
 
 		host, err := cmd.Flags().GetString("host")
 		if err != nil {
-			log.Fatalf("failed to get host", err)
+			log.Fatalf("failed to get host: %v", err)
 		}
 
 		lis, err := net.Listen("tcp", fmt.Sprintf("%s:%d", host, port))
@@ -56,7 +56,7 @@ var serveCmd = &cobra.Command{
 
 		grpcServer := grpc.NewServer(opts...)
 
-		fb := server.NewFileBase(".").WithFs(afero.NewMemMapFs())
+		fb := server.NewFileBase(".").WithFs(afero.NewMemMapFs()) // TODO storage provider type
 		s := server.NewServer(fb)
 
 		blob.RegisterBlobServiceServer(grpcServer, s)
@@ -68,20 +68,16 @@ var serveCmd = &cobra.Command{
 	},
 }
 
+// Default Values.
+const (
+	DefaultPort = 2018
+	DefaultHost = "localhost"
+)
+
 func init() {
 	rootCmd.AddCommand(serveCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// serveCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// serveCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-
-	serveCmd.Flags().IntP("port", "p", 2018, "Port number of server")
-	serveCmd.Flags().StringP("host", "s", "localhost", "host address to listen")
+	serveCmd.Flags().IntP("port", "p", DefaultPort, "Port number of server")
+	serveCmd.Flags().StringP("host", "s", DefaultHost, "host address to listen")
 
 }
