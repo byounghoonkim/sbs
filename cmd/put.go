@@ -16,6 +16,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/spf13/cobra"
 )
@@ -23,28 +24,20 @@ import (
 // putCmd represents the put command
 var putCmd = &cobra.Command{
 	Use:   "put",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "put a file to sbs server",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("put called")
+
+		fmt.Printf("%#v\n", args)
+
+		log.Println(cmd.Flags().GetString("host"))
+		log.Println(cmd.Flags().GetInt("port"))
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(putCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// putCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// putCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	putCmd.Flags().StringP("host", "s", DefaultHost, "Host string of server")
+	putCmd.Flags().IntP("port", "p", DefaultPort, "Port number of server")
 }
