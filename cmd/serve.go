@@ -12,8 +12,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-var port = 2018
-
 // serveCmd represents the serve command
 var serveCmd = &cobra.Command{
 	Use:   "serve",
