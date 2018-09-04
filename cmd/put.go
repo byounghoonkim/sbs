@@ -15,9 +15,13 @@
 package cmd
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"log"
+	"os"
 
+	"github.com/shoebillk/sbs/blob"
 	"github.com/spf13/cobra"
 )
 
@@ -32,6 +36,38 @@ var putCmd = &cobra.Command{
 
 		log.Println(cmd.Flags().GetString("host"))
 		log.Println(cmd.Flags().GetInt("port"))
+
+		f, err := os.Open(args[0])
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer f.Close()
+
+		reader := bufio.NewReader(f)
+
+		chunkContentSize := 0x1000
+		chunk := blob.Chunk{
+			Id:      args[0],
+			Content: make([]byte, chunkContentSize),
+		}
+
+		for {
+			n, err := reader.Read(chunk.Content)
+
+			if err == io.EOF {
+				log.Printf("Done to read")
+				break
+			} else if err != nil {
+				log.Fatal(err)
+				break
+			}
+
+			chunk.Content = chunk.Content[:n]
+			log.Printf("Read %d", n)
+
+			// TODO send chunk to server
+		}
+
 	},
 }
 
