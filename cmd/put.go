@@ -16,6 +16,7 @@ package cmd
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	"io"
 	"log"
@@ -23,6 +24,7 @@ import (
 
 	"github.com/shoebillk/sbs/blob"
 	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
 )
 
 // putCmd represents the put command
@@ -51,6 +53,21 @@ var putCmd = &cobra.Command{
 			Content: make([]byte, chunkContentSize),
 		}
 
+		conn, err := grpc.Dial("localhost:2018", grpc.WithInsecure())
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer conn.Close()
+
+		client := blob.NewBlobServiceClient(conn)
+
+		var callopts []grpc.CallOption
+		pushClient, err := client.Push(context.Background(), callopts...)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		for {
 			n, err := reader.Read(chunk.Content)
 
@@ -65,8 +82,19 @@ var putCmd = &cobra.Command{
 			chunk.Content = chunk.Content[:n]
 			log.Printf("Read %d", n)
 
-			// TODO send chunk to server
+			err = pushClient.Send(&chunk)
+			if err != nil {
+				log.Fatal(err)
+				break
+			}
 		}
+
+		pushStatus, err := pushClient.CloseAndRecv()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		log.Printf("%#v", pushStatus)
 
 	},
 }

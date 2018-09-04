@@ -2,6 +2,7 @@ package server
 
 import (
 	"io"
+	"log"
 
 	blob "github.com/shoebillk/sbs/blob"
 )
@@ -40,10 +41,12 @@ func (s *Server) Push(stream blob.BlobService_PushServer) error {
 			defer wc.Close()
 		}
 
-		_, err = wc.Write(chunk.Content)
+		n, err := wc.Write(chunk.Content)
 		if err != nil {
 			return err
 		}
+
+		log.Printf("Id : %s push %d bytes", chunk.Id, n)
 	}
 
 }
