@@ -34,12 +34,22 @@ var putCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("put called")
 
-		fmt.Printf("%#v\n", args)
+		host, err := cmd.Flags().GetString("host")
+		if err != nil {
+			log.Fatal(err)
+		}
+		port, err := cmd.Flags().GetInt("port")
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		log.Println(cmd.Flags().GetString("host"))
-		log.Println(cmd.Flags().GetInt("port"))
+		file := args[0]
+		log.Printf("file : %s\n", file)
 
-		f, err := os.Open(args[0])
+		target := fmt.Sprintf("%s:%d", host, port)
+		log.Printf("Server : %s", target)
+
+		f, err := os.Open(file)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -53,7 +63,7 @@ var putCmd = &cobra.Command{
 			Content: make([]byte, chunkContentSize),
 		}
 
-		conn, err := grpc.Dial("localhost:2018", grpc.WithInsecure())
+		conn, err := grpc.Dial(target, grpc.WithInsecure())
 		if err != nil {
 			log.Fatal(err)
 		}
