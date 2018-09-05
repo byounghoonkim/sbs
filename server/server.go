@@ -62,7 +62,7 @@ func (s *Server) Get(req *blob.GetRequest, stream blob.BlobService_GetServer) er
 
 	chunk := blob.Chunk{
 		Id:      req.Id,
-		Content: make([]byte, 4048),
+		Content: make([]byte, 4096),
 	}
 
 	for {
@@ -72,6 +72,7 @@ func (s *Server) Get(req *blob.GetRequest, stream blob.BlobService_GetServer) er
 		}
 
 		if n > 0 {
+			chunk.Content = chunk.Content[:n]
 			if nil != stream.Send(&chunk) {
 				return err
 			}
