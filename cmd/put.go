@@ -16,15 +16,12 @@ package cmd
 
 import (
 	"bufio"
-	"context"
 	"fmt"
-	"io"
 	"log"
 	"os"
 
-	"github.com/shoebillk/sbs/blob"
+	"github.com/shoebillk/sbs/client"
 	"github.com/spf13/cobra"
-	"google.golang.org/grpc"
 )
 
 // putCmd represents the put command
@@ -43,12 +40,10 @@ var putCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
+		c := client.NewClient(host, port)
+
 		file := args[0]
 		log.Printf("file : %s\n", file)
-
-		target := fmt.Sprintf("%s:%d", host, port)
-		log.Printf("Server : %s", target)
-
 		f, err := os.Open(file)
 		if err != nil {
 			log.Fatal(err)
@@ -57,49 +52,8 @@ var putCmd = &cobra.Command{
 
 		reader := bufio.NewReader(f)
 
-		chunkContentSize := 0x1000
-		chunk := blob.Chunk{
-			Id:      args[0],
-			Content: make([]byte, chunkContentSize),
-		}
-
-		conn, err := grpc.Dial(target, grpc.WithInsecure())
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer conn.Close()
-
-		client := blob.NewBlobServiceClient(conn)
-
-		var callopts []grpc.CallOption
-		pushClient, err := client.Push(context.Background(), callopts...)
-
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		for {
-			n, err := reader.Read(chunk.Content)
-
-			if err == io.EOF {
-				log.Printf("Done to read")
-				break
-			} else if err != nil {
-				log.Fatal(err)
-				break
-			}
-
-			chunk.Content = chunk.Content[:n]
-			log.Printf("Read %d", n)
-
-			err = pushClient.Send(&chunk)
-			if err != nil {
-				log.Fatal(err)
-				break
-			}
-		}
-
-		pushStatus, err := pushClient.CloseAndRecv()
+		ID := file
+		pushStatus, err := c.Push(ID, reader)
 		if err != nil {
 			log.Fatal(err)
 		}
