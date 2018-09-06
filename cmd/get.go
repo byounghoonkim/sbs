@@ -1,14 +1,11 @@
 package cmd
 
 import (
-	"context"
-	"fmt"
-	"io"
+	"io/ioutil"
 	"log"
 
-	"github.com/shoebillk/sbs/blob"
+	"github.com/shoebillk/sbs/client"
 	"github.com/spf13/cobra"
-	"google.golang.org/grpc"
 )
 
 // getCmd represents the get command
@@ -26,43 +23,15 @@ var getCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		Id := args[0]
-		log.Printf("ID : %s\n", Id)
+		c := client.NewClient(host, port)
 
-		target := fmt.Sprintf("%s:%d", host, port)
-		log.Printf("Server : %s", target)
-		conn, err := grpc.Dial(target, grpc.WithInsecure())
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer conn.Close()
-
-		client := blob.NewBlobServiceClient(conn)
-
-		req := blob.GetRequest{Id: Id}
-
-		var callopts []grpc.CallOption
-		getClient, err := client.Get(context.Background(), &req, callopts...)
+		ID := args[0]
+		n, err := c.Get(ID, ioutil.Discard)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		for {
-			chunk, err := getClient.Recv()
-
-			if err == io.EOF {
-				log.Printf("Done to read")
-				break
-			} else if err != nil {
-				log.Fatal(err)
-				break
-			}
-
-			log.Printf("Read %d", len(chunk.Content))
-			log.Printf("Read %s", chunk.Content)
-
-		}
-
+		log.Printf("Read : %d", n)
 	},
 }
 
