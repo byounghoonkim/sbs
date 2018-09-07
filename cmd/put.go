@@ -39,7 +39,12 @@ var putCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		c, err := client.NewClient(host, port)
+		b, err := client.NewBlobServiceClient(host, port)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		c, err := client.NewClient(b)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -61,7 +66,6 @@ var putCmd = &cobra.Command{
 		}
 
 		log.Printf("%#v", pushStatus)
-
 	},
 }
 

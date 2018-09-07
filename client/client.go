@@ -12,13 +12,16 @@ import (
 
 // Client ...
 type Client struct {
-	host       string
-	port       int
 	blobClient blob.BlobServiceClient
 }
 
 // NewClient ...
-func NewClient(host string, port int) (*Client, error) {
+func NewClient(b blob.BlobServiceClient) (*Client, error) {
+	return &Client{b}, nil
+}
+
+// NewBlobServiceClient ...
+func NewBlobServiceClient(host string, port int) (blob.BlobServiceClient, error) {
 	target := fmt.Sprintf("%s:%d", host, port)
 	conn, err := grpc.Dial(target, grpc.WithInsecure())
 	if err != nil {
@@ -26,10 +29,10 @@ func NewClient(host string, port int) (*Client, error) {
 	}
 
 	c := blob.NewBlobServiceClient(conn)
-	return &Client{host, port, c}, nil
+	return c, nil
 }
 
-func (c *Client) getClient(ID string) (blob.BlobService_GetClient, error) {
+func (c *Client) getgrpcgrpcClient(ID string) (blob.BlobService_GetClient, error) {
 	return nil, errors.New("not implemented")
 }
 
@@ -94,6 +97,7 @@ func (c *Client) Get(ID string, w io.Writer) (n int64, err error) {
 		n += int64(len(chunk.Content))
 		_, err = w.Write(chunk.Content)
 		if err != nil {
+
 			return n, err
 		}
 	}
