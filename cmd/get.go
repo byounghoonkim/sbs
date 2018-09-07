@@ -23,7 +23,10 @@ var getCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		c := client.NewClient(host, port)
+		c, err := client.NewClient(host, port)
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		ID := args[0]
 		n, err := c.Get(ID, ioutil.Discard)

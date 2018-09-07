@@ -12,13 +12,21 @@ import (
 
 // Client ...
 type Client struct {
-	host string
-	port int
+	host       string
+	port       int
+	blobClient blob.BlobServiceClient
 }
 
 // NewClient ...
-func NewClient(host string, port int) *Client {
-	return &Client{host, port}
+func NewClient(host string, port int) (*Client, error) {
+	target := fmt.Sprintf("%s:%d", host, port)
+	conn, err := grpc.Dial(target, grpc.WithInsecure())
+	if err != nil {
+		return nil, err
+	}
+
+	c := blob.NewBlobServiceClient(conn)
+	return &Client{host, port, c}, nil
 }
 
 func (c *Client) getClient(ID string) (blob.BlobService_GetClient, error) {
@@ -27,18 +35,8 @@ func (c *Client) getClient(ID string) (blob.BlobService_GetClient, error) {
 
 // Push ...
 func (c *Client) Push(ID string, r io.Reader) (*blob.PushStatus, error) {
-
-	target := fmt.Sprintf("%s:%d", c.host, c.port)
-	conn, err := grpc.Dial(target, grpc.WithInsecure())
-	if err != nil {
-		return nil, err
-	}
-	defer conn.Close()
-
-	client := blob.NewBlobServiceClient(conn)
-
 	var callopts []grpc.CallOption
-	pushClient, err := client.Push(context.Background(), callopts...)
+	pushClient, err := c.blobClient.Push(context.Background(), callopts...)
 	if err != nil {
 		return nil, err
 	}
@@ -74,19 +72,10 @@ func (c *Client) Push(ID string, r io.Reader) (*blob.PushStatus, error) {
 // Get ...
 func (c *Client) Get(ID string, w io.Writer) (n int64, err error) {
 	n = 0
-	target := fmt.Sprintf("%s:%d", c.host, c.port)
-	conn, err := grpc.Dial(target, grpc.WithInsecure())
-	if err != nil {
-		return n, err
-	}
-	defer conn.Close()
-
-	client := blob.NewBlobServiceClient(conn)
-
 	req := blob.GetRequest{Id: ID}
 
 	var callopts []grpc.CallOption
-	getClient, err := client.Get(context.Background(), &req, callopts...)
+	getClient, err := c.blobClient.Get(context.Background(), &req, callopts...)
 	if err != nil {
 		return n, err
 	}

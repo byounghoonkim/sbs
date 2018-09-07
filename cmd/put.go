@@ -16,7 +16,6 @@ package cmd
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
 
@@ -29,7 +28,7 @@ var putCmd = &cobra.Command{
 	Use:   "put",
 	Short: "put a file to sbs server",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("put called")
+		log.Println("put called")
 
 		host, err := cmd.Flags().GetString("host")
 		if err != nil {
@@ -40,7 +39,10 @@ var putCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		c := client.NewClient(host, port)
+		c, err := client.NewClient(host, port)
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		file := args[0]
 		log.Printf("file : %s\n", file)
