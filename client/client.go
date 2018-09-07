@@ -2,7 +2,6 @@ package client
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"io"
 
@@ -30,10 +29,6 @@ func NewBlobServiceClient(host string, port int) (blob.BlobServiceClient, error)
 
 	c := blob.NewBlobServiceClient(conn)
 	return c, nil
-}
-
-func (c *Client) getgrpcgrpcClient(ID string) (blob.BlobService_GetClient, error) {
-	return nil, errors.New("not implemented")
 }
 
 // Push ...
