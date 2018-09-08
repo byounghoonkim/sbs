@@ -1,4 +1,7 @@
 
+all: clean test build
+
+
 test:
 	go test ./...
 
@@ -14,4 +17,7 @@ mockgen:
 		> ./mock_blob/mock_blob.go
 
 
+clean:
+	go clean 
+	go clean -testcache
 
