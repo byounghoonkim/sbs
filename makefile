@@ -4,6 +4,7 @@ all: clean test build
 
 test:
 	go test ./... -cover
+	./integration_test.sh
 
 
 build: mockgen
