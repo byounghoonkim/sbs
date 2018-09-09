@@ -73,6 +73,8 @@ var serveCmd = &cobra.Command{
 			fb = server.NewFileBase(".").WithFs(afero.NewMemMapFs())
 		}
 
+		// fb = server.NewMgoFS("mongodb://localhost:27017", "sbs", "fs") // TODO add option for MgoFS
+
 		s := server.NewServer(fb)
 
 		blob.RegisterBlobServiceServer(grpcServer, s)
