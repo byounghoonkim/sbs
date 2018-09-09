@@ -28,6 +28,11 @@ var serveCmd = &cobra.Command{
 			log.Fatalf("failed to get host: %v", err)
 		}
 
+		path, err := cmd.Flags().GetString("path")
+		if err != nil {
+			log.Fatalf("failed to get path: %v", err)
+		}
+
 		lis, err := net.Listen("tcp", fmt.Sprintf("%s:%d", host, port))
 		if err != nil {
 			log.Fatalf("failed to listen: %v", err)
@@ -54,7 +59,14 @@ var serveCmd = &cobra.Command{
 
 		grpcServer := grpc.NewServer(opts...)
 
-		fb := server.NewFileBase(".").WithFs(afero.NewMemMapFs()) // TODO storage provider type
+		var fb server.Provider
+		if path != "" {
+			fb = server.NewFileBase(path)
+		} else {
+			log.Print("serving with memory storage")
+			fb = server.NewFileBase(".").WithFs(afero.NewMemMapFs())
+		}
+
 		s := server.NewServer(fb)
 
 		blob.RegisterBlobServiceServer(grpcServer, s)
@@ -77,5 +89,7 @@ func init() {
 
 	serveCmd.Flags().IntP("port", "p", DefaultPort, "Port number of server")
 	serveCmd.Flags().StringP("host", "s", DefaultHost, "host address to listen")
+
+	serveCmd.Flags().StringP("path", "", "", "path to save blobs")
 
 }
