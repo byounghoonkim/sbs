@@ -2,6 +2,7 @@ package server
 
 import (
 	"io"
+	"path/filepath"
 
 	"github.com/spf13/afero"
 )
@@ -24,10 +25,10 @@ func (fb *FileBase) WithFs(fs afero.Fs) *FileBase {
 
 // Open return ReadCloser interface for read the contents.
 func (fb *FileBase) Open(ID string) (io.ReadCloser, error) {
-	return fb.fs.Open(ID)
+	return fb.fs.Open(filepath.Join(fb.root, ID))
 }
 
 // Create return WriteCloser interface for write the contents.
 func (fb *FileBase) Create(ID string) (io.WriteCloser, error) {
-	return fb.fs.Create(ID)
+	return fb.fs.Create(filepath.Join(fb.root, ID))
 }
