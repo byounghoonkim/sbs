@@ -3,7 +3,7 @@ all: clean test build
 
 
 test:
-	go test ./...
+	go test ./... -cover
 
 
 build: mockgen
