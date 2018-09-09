@@ -25,6 +25,7 @@ func TestServe(t *testing.T) {
 	}
 
 	go func() {
+		serveCmd.ParseFlags([]string{"--tls"})
 		serveCmd.Run(serveCmd, nil)
 	}()
 
@@ -36,7 +37,18 @@ func TestServe(t *testing.T) {
 		}
 	}
 
+	putCmd.ParseFlags([]string{
+		"--tls",
+		"--server_host_override",
+		"sbs.test.youtube.com",
+	})
 	putCmd.Run(putCmd, []string{tmpfile.Name()})
+
+	getCmd.ParseFlags([]string{
+		"--tls",
+		"--server_host_override",
+		"sbs.test.youtube.com",
+	})
 	getCmd.Run(getCmd, []string{tmpfile.Name()})
 
 }
