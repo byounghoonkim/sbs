@@ -7,6 +7,12 @@ import (
 	blob "github.com/shoebillk/sbs/blob"
 )
 
+// Provider interface defines Blob Provider's Methods.
+type Provider interface {
+	Create(ID string) (io.WriteCloser, error)
+	Open(ID string) (io.ReadCloser, error)
+}
+
 // Server structure implements BlobServiceServer.
 type Server struct {
 	provider Provider
