@@ -21,9 +21,12 @@ func NewServer(provider Provider) *Server {
 func (s *Server) Push(stream blob.BlobService_PushServer) error {
 
 	var wc io.WriteCloser
+	recvByte := 0
+	var id string
 	for {
 		chunk, err := stream.Recv()
 		if err == io.EOF {
+			log.Printf("Id : %s push %d bytes", id, recvByte)
 			return stream.SendAndClose(&blob.PushStatus{
 				Message: "OK",
 				Code:    blob.PushStatusCode_Ok,
@@ -39,6 +42,8 @@ func (s *Server) Push(stream blob.BlobService_PushServer) error {
 				return err
 			}
 			defer wc.Close()
+
+			id = chunk.Id
 		}
 
 		n, err := wc.Write(chunk.Content)
@@ -46,7 +51,7 @@ func (s *Server) Push(stream blob.BlobService_PushServer) error {
 			return err
 		}
 
-		log.Printf("Id : %s push %d bytes", chunk.Id, n)
+		recvByte += n
 	}
 
 }
