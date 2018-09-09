@@ -23,7 +23,11 @@ var getCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		b, err := client.NewBlobServiceClient(host, port)
+		tls, err := cmd.Flags().GetBool("tls")
+		caFile, err := cmd.Flags().GetString("ca_file")
+		serverHostOverride, err := cmd.Flags().GetString("server_host_override")
+
+		b, err := client.NewBlobServiceClient(host, port, tls, caFile, serverHostOverride)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -48,4 +52,8 @@ func init() {
 
 	getCmd.Flags().StringP("host", "s", DefaultHost, "Host string of server")
 	getCmd.Flags().IntP("port", "p", DefaultPort, "Port number of server")
+
+	getCmd.Flags().BoolP("tls", "", false, "use tls connection")
+	getCmd.Flags().StringP("ca_file", "", "", "path to ca file")
+	getCmd.Flags().StringP("server_host_override", "", "", "host name for override")
 }

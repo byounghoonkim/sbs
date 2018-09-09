@@ -10,6 +10,8 @@ import (
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/testdata"
 )
 
 // serveCmd represents the serve command
@@ -33,6 +35,10 @@ var serveCmd = &cobra.Command{
 			log.Fatalf("failed to get path: %v", err)
 		}
 
+		tls, err := cmd.Flags().GetBool("tls")
+		certFile, err := cmd.Flags().GetString("cert_file")
+		keyFile, err := cmd.Flags().GetString("key_file")
+
 		lis, err := net.Listen("tcp", fmt.Sprintf("%s:%d", host, port))
 		if err != nil {
 			log.Fatalf("failed to listen: %v", err)
@@ -41,21 +47,21 @@ var serveCmd = &cobra.Command{
 		log.Printf("Listening - %s:%d", host, port)
 
 		var opts []grpc.ServerOption
-		/*
-			if *tls {
-				if *certFile == "" {
-					*certFile = testdata.Path("server1.pem")
-				}
-				if *keyFile == "" {
-					*keyFile = testdata.Path("server1.key")
-				}
-				creds, err := credentials.NewServerTLSFromFile(*certFile, *keyFile)
-				if err != nil {
-					log.Fatalf("Failed to generate credentials %v", err)
-				}
-				opts = []grpc.ServerOption{grpc.Creds(creds)}
+		if tls {
+			if certFile == "" {
+				log.Print("tls with testdata server1.pem")
+				certFile = testdata.Path("server1.pem")
 			}
-		*/
+			if keyFile == "" {
+				log.Print("tls with testdata server1.key")
+				keyFile = testdata.Path("server1.key")
+			}
+			creds, err := credentials.NewServerTLSFromFile(certFile, keyFile)
+			if err != nil {
+				log.Fatalf("Failed to generate credentials %v", err)
+			}
+			opts = []grpc.ServerOption{grpc.Creds(creds)}
+		}
 
 		grpcServer := grpc.NewServer(opts...)
 
@@ -91,5 +97,9 @@ func init() {
 	serveCmd.Flags().StringP("host", "s", DefaultHost, "host address to listen")
 
 	serveCmd.Flags().StringP("path", "", "", "path to save blobs")
+
+	serveCmd.Flags().BoolP("tls", "", false, "use tls connection")
+	serveCmd.Flags().StringP("ca_file", "", "", "path to ca file")
+	serveCmd.Flags().StringP("key_file", "", "", "path to key file")
 
 }

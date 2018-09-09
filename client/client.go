@@ -4,9 +4,12 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"log"
 
 	"github.com/shoebillk/sbs/blob"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/testdata"
 )
 
 // Client ...
@@ -20,9 +23,24 @@ func NewClient(b blob.BlobServiceClient) (*Client, error) {
 }
 
 // NewBlobServiceClient ...
-func NewBlobServiceClient(host string, port int) (blob.BlobServiceClient, error) {
+func NewBlobServiceClient(host string, port int, tls bool, caFile string, serverHostOverride string) (blob.BlobServiceClient, error) {
 	target := fmt.Sprintf("%s:%d", host, port)
-	conn, err := grpc.Dial(target, grpc.WithInsecure())
+
+	var opts []grpc.DialOption
+	if tls {
+		if caFile == "" {
+			caFile = testdata.Path("ca.pem")
+		}
+		creds, err := credentials.NewClientTLSFromFile(caFile, serverHostOverride)
+		if err != nil {
+			log.Fatalf("Failed to create TLS credentials %v", err)
+		}
+		opts = append(opts, grpc.WithTransportCredentials(creds))
+	} else {
+		opts = append(opts, grpc.WithInsecure())
+	}
+
+	conn, err := grpc.Dial(target, opts...)
 	if err != nil {
 		return nil, err
 	}
