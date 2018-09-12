@@ -1,8 +1,25 @@
 package server
 
-import "testing"
+import (
+	"net"
+	"testing"
+)
+
+func availableLocalMongo() bool {
+	conn, err := net.Dial("tcp", ":27017")
+	if err != nil {
+		return false
+	}
+	defer conn.Close()
+
+	return true
+
+}
 
 func TestMgoCreate(t *testing.T) {
+	if !availableLocalMongo() {
+		t.Skip("local mongo not available")
+	}
 
 	m := NewMgoFS("mongodb://localhost:27017", "sbs", "fs")
 
@@ -17,6 +34,9 @@ func TestMgoCreate(t *testing.T) {
 }
 
 func TestMgoOpen(t *testing.T) {
+	if !availableLocalMongo() {
+		t.Skip("local mongo not available")
+	}
 
 	m := NewMgoFS("mongodb://localhost:27017", "sbs", "fs")
 
