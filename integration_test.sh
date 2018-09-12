@@ -1,3 +1,4 @@
+#! /bin/bash
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     fallocate -l 5M testfile
