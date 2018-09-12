@@ -10,7 +10,7 @@ func TestNew(t *testing.T) {
 	fs := afero.NewMemMapFs()
 	fb := NewFileBase(".").WithFs(fs)
 	_, checked := interface{}(fb).(Provider)
-	if checked == false {
+	if !checked {
 		t.Fatal("FileBase must be a kind of Provider")
 	}
 }
