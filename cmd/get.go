@@ -1,8 +1,10 @@
 package cmd
 
 import (
+	"io"
 	"io/ioutil"
 	"log"
+	"os"
 
 	"github.com/shoebillk/sbs/client"
 	"github.com/spf13/cobra"
@@ -27,6 +29,8 @@ var getCmd = &cobra.Command{
 		caFile, err := cmd.Flags().GetString("ca_file")
 		serverHostOverride, err := cmd.Flags().GetString("server_host_override")
 
+		output, err := cmd.Flags().GetString("output")
+
 		b, err := client.NewBlobServiceClient(host, port, tls, caFile, serverHostOverride)
 		if err != nil {
 			log.Fatal(err)
@@ -38,7 +42,22 @@ var getCmd = &cobra.Command{
 		}
 
 		ID := args[0]
-		n, err := c.Get(ID, ioutil.Discard)
+
+		var w io.Writer
+
+		if output != "" {
+			log.Printf("output : %s", output)
+			f, err := os.Create(output)
+			if err != nil {
+				log.Fatal(err)
+			}
+			w = f
+			defer f.Close()
+		} else {
+			w = ioutil.Discard
+		}
+
+		n, err := c.Get(ID, w)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -56,4 +75,6 @@ func init() {
 	getCmd.Flags().BoolP("tls", "", false, "use tls connection")
 	getCmd.Flags().StringP("ca_file", "", "", "path to ca file")
 	getCmd.Flags().StringP("server_host_override", "", "", "host name for override")
+
+	getCmd.Flags().StringP("output", "o", "", "Path to save blob to file")
 }
