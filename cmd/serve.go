@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"net/url"
 
 	"github.com/shoebillk/sbs/blob"
 	"github.com/shoebillk/sbs/server"
@@ -66,8 +67,22 @@ var serveCmd = &cobra.Command{
 		grpcServer := grpc.NewServer(opts...)
 
 		var fb server.Provider
+
 		if path != "" {
-			fb = server.NewFileBase(path)
+			u, err := url.Parse(path)
+			if err != nil {
+				log.Fatalf("failed to parse path string: %v", err)
+			}
+
+			switch u.Scheme {
+			case "":
+				fb = server.NewFileBase(path)
+			case "mongodb":
+				fb = server.NewMgoFS(path, "db", "sbs")
+			default:
+				log.Fatalf("not support db - %s", u.Scheme)
+			}
+
 		} else {
 			log.Print("serving with memory storage")
 			fb = server.NewFileBase(".").WithFs(afero.NewMemMapFs())
