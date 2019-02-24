@@ -9,7 +9,7 @@ test:
 
 build: mockgen
 	protoc -I blob/ blob/blob.proto --go_out=plugins=grpc:blob
-	go build ./...
+	go build .
 
 
 mockgen:
