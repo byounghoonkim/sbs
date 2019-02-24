@@ -25,15 +25,17 @@ func makeProvider(uri string) (*server.Provider, error) {
 
 		switch u.Scheme {
 		case "":
+			log.Print("serving with filesystem base storage")
 			sp = server.NewFileBase(uri)
 		case "mongodb":
+			log.Print("serving with mongodb base storage")
 			sp = server.NewMgoFS(uri, "db", "sbs")
 		default:
 			return nil, fmt.Errorf("not support db - %s", u.Scheme)
 		}
 
 	} else {
-		log.Print("serving with memory storage")
+		log.Print("serving with memory base storage")
 		sp = server.NewFileBase(".").WithFs(afero.NewMemMapFs())
 	}
 
