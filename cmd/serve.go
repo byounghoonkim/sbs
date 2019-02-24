@@ -15,6 +15,31 @@ import (
 	"google.golang.org/grpc/testdata"
 )
 
+func makeProvider(uri string) (*server.Provider, error) {
+	var sp server.Provider
+	if uri != "" {
+		u, err := url.Parse(uri)
+		if err != nil {
+			return nil, err
+		}
+
+		switch u.Scheme {
+		case "":
+			sp = server.NewFileBase(uri)
+		case "mongodb":
+			sp = server.NewMgoFS(uri, "db", "sbs")
+		default:
+			return nil, fmt.Errorf("not support db - %s", u.Scheme)
+		}
+
+	} else {
+		log.Print("serving with memory storage")
+		sp = server.NewFileBase(".").WithFs(afero.NewMemMapFs())
+	}
+
+	return &sp, nil
+}
+
 // serveCmd represents the serve command
 var serveCmd = &cobra.Command{
 	Use:   "serve",
@@ -66,31 +91,13 @@ var serveCmd = &cobra.Command{
 
 		grpcServer := grpc.NewServer(opts...)
 
-		var fb server.Provider
+		provider, err := makeProvider(path)
 
-		if path != "" {
-			u, err := url.Parse(path)
-			if err != nil {
-				log.Fatalf("failed to parse path string: %v", err)
-			}
-
-			switch u.Scheme {
-			case "":
-				fb = server.NewFileBase(path)
-			case "mongodb":
-				fb = server.NewMgoFS(path, "db", "sbs")
-			default:
-				log.Fatalf("not support db - %s", u.Scheme)
-			}
-
-		} else {
-			log.Print("serving with memory storage")
-			fb = server.NewFileBase(".").WithFs(afero.NewMemMapFs())
+		if err != nil {
+			log.Fatalf("failed  to make provider : %v", err)
 		}
 
-		// fb = server.NewMgoFS("mongodb://localhost:27017", "sbs", "fs") // TODO add option for MgoFS
-
-		s := server.NewServer(fb)
+		s := server.NewServer(*provider)
 
 		blob.RegisterBlobServiceServer(grpcServer, s)
 		err = grpcServer.Serve(lis)

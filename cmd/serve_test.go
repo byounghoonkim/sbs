@@ -9,6 +9,33 @@ import (
 	"time"
 )
 
+func TestMakeProvider(t *testing.T) {
+	_, err := makeProvider("")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = makeProvider("mongodb://localhost:20217")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = makeProvider("xxxxxxx://localhost:20217")
+	if err == nil {
+		log.Fatalf("makeProvider return unsupport db error")
+	}
+}
+
+func TestServeArg(t *testing.T) {
+	err := serveCmd.ParseFlags([]string{"--path", ""})
+	if err != nil {
+		log.Fatalf("failed to parse commandline arg : %v", err)
+	}
+
+	log.Print(serveCmd)
+	//serveCmd.Run(serveCmd, nil)
+}
+
 func TestServe(t *testing.T) {
 	content := []byte("temporary file's content")
 	tmpfile, err := ioutil.TempFile("", "example")
