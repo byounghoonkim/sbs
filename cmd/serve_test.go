@@ -26,16 +26,6 @@ func TestMakeProvider(t *testing.T) {
 	}
 }
 
-func TestServeArg(t *testing.T) {
-	err := serveCmd.ParseFlags([]string{"--path", ""})
-	if err != nil {
-		log.Fatalf("failed to parse commandline arg : %v", err)
-	}
-
-	log.Print(serveCmd)
-	//serveCmd.Run(serveCmd, nil)
-}
-
 func TestServe(t *testing.T) {
 	content := []byte("temporary file's content")
 	tmpfile, err := ioutil.TempFile("", "example")
