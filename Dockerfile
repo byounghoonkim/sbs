@@ -1,11 +1,19 @@
-FROM golang:latest
-RUN mkdir /app 
-ADD . /app/
+FROM golang as builder
+
+ENV GO111MODULE=on
+
 WORKDIR /app 
 
-ADD ./go.mod ./
+COPY go.mod .
+COPY go.sum .
 RUN go mod download
 
-RUN go build .
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build .
+
+FROM scratch
+COPY --from=builder /app/sbs /app/
+
 EXPOSE 2018
-CMD ["./sbs", "serve"]
+CMD ["serve", "--host", "0.0.0.0"]
+ENTRYPOINT ["/app/sbs"]
