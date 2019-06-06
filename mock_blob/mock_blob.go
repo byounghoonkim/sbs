@@ -38,6 +38,7 @@ func (m *MockBlobServiceClient) EXPECT() *MockBlobServiceClientMockRecorder {
 
 // Get mocks base method
 func (m *MockBlobServiceClient) Get(arg0 context.Context, arg1 *blob.GetRequest, arg2 ...grpc.CallOption) (blob.BlobService_GetClient, error) {
+	m.ctrl.T.Helper()
 	varargs := []interface{}{arg0, arg1}
 	for _, a := range arg2 {
 		varargs = append(varargs, a)
@@ -50,12 +51,14 @@ func (m *MockBlobServiceClient) Get(arg0 context.Context, arg1 *blob.GetRequest,
 
 // Get indicates an expected call of Get
 func (mr *MockBlobServiceClientMockRecorder) Get(arg0, arg1 interface{}, arg2 ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{arg0, arg1}, arg2...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockBlobServiceClient)(nil).Get), varargs...)
 }
 
 // Push mocks base method
 func (m *MockBlobServiceClient) Push(arg0 context.Context, arg1 ...grpc.CallOption) (blob.BlobService_PushClient, error) {
+	m.ctrl.T.Helper()
 	varargs := []interface{}{arg0}
 	for _, a := range arg1 {
 		varargs = append(varargs, a)
@@ -68,6 +71,7 @@ func (m *MockBlobServiceClient) Push(arg0 context.Context, arg1 ...grpc.CallOpti
 
 // Push indicates an expected call of Push
 func (mr *MockBlobServiceClientMockRecorder) Push(arg0 interface{}, arg1 ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{arg0}, arg1...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Push", reflect.TypeOf((*MockBlobServiceClient)(nil).Push), varargs...)
 }
@@ -97,6 +101,7 @@ func (m *MockBlobService_PushClient) EXPECT() *MockBlobService_PushClientMockRec
 
 // CloseAndRecv mocks base method
 func (m *MockBlobService_PushClient) CloseAndRecv() (*blob.PushStatus, error) {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CloseAndRecv")
 	ret0, _ := ret[0].(*blob.PushStatus)
 	ret1, _ := ret[1].(error)
@@ -105,11 +110,13 @@ func (m *MockBlobService_PushClient) CloseAndRecv() (*blob.PushStatus, error) {
 
 // CloseAndRecv indicates an expected call of CloseAndRecv
 func (mr *MockBlobService_PushClientMockRecorder) CloseAndRecv() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CloseAndRecv", reflect.TypeOf((*MockBlobService_PushClient)(nil).CloseAndRecv))
 }
 
 // CloseSend mocks base method
 func (m *MockBlobService_PushClient) CloseSend() error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CloseSend")
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -117,11 +124,13 @@ func (m *MockBlobService_PushClient) CloseSend() error {
 
 // CloseSend indicates an expected call of CloseSend
 func (mr *MockBlobService_PushClientMockRecorder) CloseSend() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CloseSend", reflect.TypeOf((*MockBlobService_PushClient)(nil).CloseSend))
 }
 
 // Context mocks base method
 func (m *MockBlobService_PushClient) Context() context.Context {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Context")
 	ret0, _ := ret[0].(context.Context)
 	return ret0
@@ -129,11 +138,13 @@ func (m *MockBlobService_PushClient) Context() context.Context {
 
 // Context indicates an expected call of Context
 func (mr *MockBlobService_PushClientMockRecorder) Context() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Context", reflect.TypeOf((*MockBlobService_PushClient)(nil).Context))
 }
 
 // Header mocks base method
 func (m *MockBlobService_PushClient) Header() (metadata.MD, error) {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Header")
 	ret0, _ := ret[0].(metadata.MD)
 	ret1, _ := ret[1].(error)
@@ -142,11 +153,13 @@ func (m *MockBlobService_PushClient) Header() (metadata.MD, error) {
 
 // Header indicates an expected call of Header
 func (mr *MockBlobService_PushClientMockRecorder) Header() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Header", reflect.TypeOf((*MockBlobService_PushClient)(nil).Header))
 }
 
 // RecvMsg mocks base method
 func (m *MockBlobService_PushClient) RecvMsg(arg0 interface{}) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RecvMsg", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -154,11 +167,13 @@ func (m *MockBlobService_PushClient) RecvMsg(arg0 interface{}) error {
 
 // RecvMsg indicates an expected call of RecvMsg
 func (mr *MockBlobService_PushClientMockRecorder) RecvMsg(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecvMsg", reflect.TypeOf((*MockBlobService_PushClient)(nil).RecvMsg), arg0)
 }
 
 // Send mocks base method
 func (m *MockBlobService_PushClient) Send(arg0 *blob.Chunk) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Send", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -166,11 +181,13 @@ func (m *MockBlobService_PushClient) Send(arg0 *blob.Chunk) error {
 
 // Send indicates an expected call of Send
 func (mr *MockBlobService_PushClientMockRecorder) Send(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Send", reflect.TypeOf((*MockBlobService_PushClient)(nil).Send), arg0)
 }
 
 // SendMsg mocks base method
 func (m *MockBlobService_PushClient) SendMsg(arg0 interface{}) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SendMsg", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -178,11 +195,13 @@ func (m *MockBlobService_PushClient) SendMsg(arg0 interface{}) error {
 
 // SendMsg indicates an expected call of SendMsg
 func (mr *MockBlobService_PushClientMockRecorder) SendMsg(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendMsg", reflect.TypeOf((*MockBlobService_PushClient)(nil).SendMsg), arg0)
 }
 
 // Trailer mocks base method
 func (m *MockBlobService_PushClient) Trailer() metadata.MD {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Trailer")
 	ret0, _ := ret[0].(metadata.MD)
 	return ret0
@@ -190,6 +209,7 @@ func (m *MockBlobService_PushClient) Trailer() metadata.MD {
 
 // Trailer indicates an expected call of Trailer
 func (mr *MockBlobService_PushClientMockRecorder) Trailer() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Trailer", reflect.TypeOf((*MockBlobService_PushClient)(nil).Trailer))
 }
 
@@ -218,6 +238,7 @@ func (m *MockBlobService_GetClient) EXPECT() *MockBlobService_GetClientMockRecor
 
 // CloseSend mocks base method
 func (m *MockBlobService_GetClient) CloseSend() error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CloseSend")
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -225,11 +246,13 @@ func (m *MockBlobService_GetClient) CloseSend() error {
 
 // CloseSend indicates an expected call of CloseSend
 func (mr *MockBlobService_GetClientMockRecorder) CloseSend() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CloseSend", reflect.TypeOf((*MockBlobService_GetClient)(nil).CloseSend))
 }
 
 // Context mocks base method
 func (m *MockBlobService_GetClient) Context() context.Context {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Context")
 	ret0, _ := ret[0].(context.Context)
 	return ret0
@@ -237,11 +260,13 @@ func (m *MockBlobService_GetClient) Context() context.Context {
 
 // Context indicates an expected call of Context
 func (mr *MockBlobService_GetClientMockRecorder) Context() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Context", reflect.TypeOf((*MockBlobService_GetClient)(nil).Context))
 }
 
 // Header mocks base method
 func (m *MockBlobService_GetClient) Header() (metadata.MD, error) {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Header")
 	ret0, _ := ret[0].(metadata.MD)
 	ret1, _ := ret[1].(error)
@@ -250,11 +275,13 @@ func (m *MockBlobService_GetClient) Header() (metadata.MD, error) {
 
 // Header indicates an expected call of Header
 func (mr *MockBlobService_GetClientMockRecorder) Header() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Header", reflect.TypeOf((*MockBlobService_GetClient)(nil).Header))
 }
 
 // Recv mocks base method
 func (m *MockBlobService_GetClient) Recv() (*blob.Chunk, error) {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Recv")
 	ret0, _ := ret[0].(*blob.Chunk)
 	ret1, _ := ret[1].(error)
@@ -263,11 +290,13 @@ func (m *MockBlobService_GetClient) Recv() (*blob.Chunk, error) {
 
 // Recv indicates an expected call of Recv
 func (mr *MockBlobService_GetClientMockRecorder) Recv() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Recv", reflect.TypeOf((*MockBlobService_GetClient)(nil).Recv))
 }
 
 // RecvMsg mocks base method
 func (m *MockBlobService_GetClient) RecvMsg(arg0 interface{}) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RecvMsg", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -275,11 +304,13 @@ func (m *MockBlobService_GetClient) RecvMsg(arg0 interface{}) error {
 
 // RecvMsg indicates an expected call of RecvMsg
 func (mr *MockBlobService_GetClientMockRecorder) RecvMsg(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecvMsg", reflect.TypeOf((*MockBlobService_GetClient)(nil).RecvMsg), arg0)
 }
 
 // SendMsg mocks base method
 func (m *MockBlobService_GetClient) SendMsg(arg0 interface{}) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SendMsg", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -287,11 +318,13 @@ func (m *MockBlobService_GetClient) SendMsg(arg0 interface{}) error {
 
 // SendMsg indicates an expected call of SendMsg
 func (mr *MockBlobService_GetClientMockRecorder) SendMsg(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendMsg", reflect.TypeOf((*MockBlobService_GetClient)(nil).SendMsg), arg0)
 }
 
 // Trailer mocks base method
 func (m *MockBlobService_GetClient) Trailer() metadata.MD {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Trailer")
 	ret0, _ := ret[0].(metadata.MD)
 	return ret0
@@ -299,6 +332,7 @@ func (m *MockBlobService_GetClient) Trailer() metadata.MD {
 
 // Trailer indicates an expected call of Trailer
 func (mr *MockBlobService_GetClientMockRecorder) Trailer() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Trailer", reflect.TypeOf((*MockBlobService_GetClient)(nil).Trailer))
 }
 
@@ -327,6 +361,7 @@ func (m *MockBlobServiceServer) EXPECT() *MockBlobServiceServerMockRecorder {
 
 // Get mocks base method
 func (m *MockBlobServiceServer) Get(arg0 *blob.GetRequest, arg1 blob.BlobService_GetServer) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", arg0, arg1)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -334,11 +369,13 @@ func (m *MockBlobServiceServer) Get(arg0 *blob.GetRequest, arg1 blob.BlobService
 
 // Get indicates an expected call of Get
 func (mr *MockBlobServiceServerMockRecorder) Get(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockBlobServiceServer)(nil).Get), arg0, arg1)
 }
 
 // Push mocks base method
 func (m *MockBlobServiceServer) Push(arg0 blob.BlobService_PushServer) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Push", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -346,6 +383,7 @@ func (m *MockBlobServiceServer) Push(arg0 blob.BlobService_PushServer) error {
 
 // Push indicates an expected call of Push
 func (mr *MockBlobServiceServerMockRecorder) Push(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Push", reflect.TypeOf((*MockBlobServiceServer)(nil).Push), arg0)
 }
 
@@ -374,6 +412,7 @@ func (m *MockBlobService_PushServer) EXPECT() *MockBlobService_PushServerMockRec
 
 // Context mocks base method
 func (m *MockBlobService_PushServer) Context() context.Context {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Context")
 	ret0, _ := ret[0].(context.Context)
 	return ret0
@@ -381,11 +420,13 @@ func (m *MockBlobService_PushServer) Context() context.Context {
 
 // Context indicates an expected call of Context
 func (mr *MockBlobService_PushServerMockRecorder) Context() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Context", reflect.TypeOf((*MockBlobService_PushServer)(nil).Context))
 }
 
 // Recv mocks base method
 func (m *MockBlobService_PushServer) Recv() (*blob.Chunk, error) {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Recv")
 	ret0, _ := ret[0].(*blob.Chunk)
 	ret1, _ := ret[1].(error)
@@ -394,11 +435,13 @@ func (m *MockBlobService_PushServer) Recv() (*blob.Chunk, error) {
 
 // Recv indicates an expected call of Recv
 func (mr *MockBlobService_PushServerMockRecorder) Recv() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Recv", reflect.TypeOf((*MockBlobService_PushServer)(nil).Recv))
 }
 
 // RecvMsg mocks base method
 func (m *MockBlobService_PushServer) RecvMsg(arg0 interface{}) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RecvMsg", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -406,11 +449,13 @@ func (m *MockBlobService_PushServer) RecvMsg(arg0 interface{}) error {
 
 // RecvMsg indicates an expected call of RecvMsg
 func (mr *MockBlobService_PushServerMockRecorder) RecvMsg(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecvMsg", reflect.TypeOf((*MockBlobService_PushServer)(nil).RecvMsg), arg0)
 }
 
 // SendAndClose mocks base method
 func (m *MockBlobService_PushServer) SendAndClose(arg0 *blob.PushStatus) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SendAndClose", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -418,11 +463,13 @@ func (m *MockBlobService_PushServer) SendAndClose(arg0 *blob.PushStatus) error {
 
 // SendAndClose indicates an expected call of SendAndClose
 func (mr *MockBlobService_PushServerMockRecorder) SendAndClose(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendAndClose", reflect.TypeOf((*MockBlobService_PushServer)(nil).SendAndClose), arg0)
 }
 
 // SendHeader mocks base method
 func (m *MockBlobService_PushServer) SendHeader(arg0 metadata.MD) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SendHeader", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -430,11 +477,13 @@ func (m *MockBlobService_PushServer) SendHeader(arg0 metadata.MD) error {
 
 // SendHeader indicates an expected call of SendHeader
 func (mr *MockBlobService_PushServerMockRecorder) SendHeader(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendHeader", reflect.TypeOf((*MockBlobService_PushServer)(nil).SendHeader), arg0)
 }
 
 // SendMsg mocks base method
 func (m *MockBlobService_PushServer) SendMsg(arg0 interface{}) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SendMsg", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -442,11 +491,13 @@ func (m *MockBlobService_PushServer) SendMsg(arg0 interface{}) error {
 
 // SendMsg indicates an expected call of SendMsg
 func (mr *MockBlobService_PushServerMockRecorder) SendMsg(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendMsg", reflect.TypeOf((*MockBlobService_PushServer)(nil).SendMsg), arg0)
 }
 
 // SetHeader mocks base method
 func (m *MockBlobService_PushServer) SetHeader(arg0 metadata.MD) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetHeader", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -454,16 +505,19 @@ func (m *MockBlobService_PushServer) SetHeader(arg0 metadata.MD) error {
 
 // SetHeader indicates an expected call of SetHeader
 func (mr *MockBlobService_PushServerMockRecorder) SetHeader(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetHeader", reflect.TypeOf((*MockBlobService_PushServer)(nil).SetHeader), arg0)
 }
 
 // SetTrailer mocks base method
 func (m *MockBlobService_PushServer) SetTrailer(arg0 metadata.MD) {
+	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "SetTrailer", arg0)
 }
 
 // SetTrailer indicates an expected call of SetTrailer
 func (mr *MockBlobService_PushServerMockRecorder) SetTrailer(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetTrailer", reflect.TypeOf((*MockBlobService_PushServer)(nil).SetTrailer), arg0)
 }
 
@@ -492,6 +546,7 @@ func (m *MockBlobService_GetServer) EXPECT() *MockBlobService_GetServerMockRecor
 
 // Context mocks base method
 func (m *MockBlobService_GetServer) Context() context.Context {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Context")
 	ret0, _ := ret[0].(context.Context)
 	return ret0
@@ -499,11 +554,13 @@ func (m *MockBlobService_GetServer) Context() context.Context {
 
 // Context indicates an expected call of Context
 func (mr *MockBlobService_GetServerMockRecorder) Context() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Context", reflect.TypeOf((*MockBlobService_GetServer)(nil).Context))
 }
 
 // RecvMsg mocks base method
 func (m *MockBlobService_GetServer) RecvMsg(arg0 interface{}) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RecvMsg", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -511,11 +568,13 @@ func (m *MockBlobService_GetServer) RecvMsg(arg0 interface{}) error {
 
 // RecvMsg indicates an expected call of RecvMsg
 func (mr *MockBlobService_GetServerMockRecorder) RecvMsg(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecvMsg", reflect.TypeOf((*MockBlobService_GetServer)(nil).RecvMsg), arg0)
 }
 
 // Send mocks base method
 func (m *MockBlobService_GetServer) Send(arg0 *blob.Chunk) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Send", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -523,11 +582,13 @@ func (m *MockBlobService_GetServer) Send(arg0 *blob.Chunk) error {
 
 // Send indicates an expected call of Send
 func (mr *MockBlobService_GetServerMockRecorder) Send(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Send", reflect.TypeOf((*MockBlobService_GetServer)(nil).Send), arg0)
 }
 
 // SendHeader mocks base method
 func (m *MockBlobService_GetServer) SendHeader(arg0 metadata.MD) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SendHeader", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -535,11 +596,13 @@ func (m *MockBlobService_GetServer) SendHeader(arg0 metadata.MD) error {
 
 // SendHeader indicates an expected call of SendHeader
 func (mr *MockBlobService_GetServerMockRecorder) SendHeader(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendHeader", reflect.TypeOf((*MockBlobService_GetServer)(nil).SendHeader), arg0)
 }
 
 // SendMsg mocks base method
 func (m *MockBlobService_GetServer) SendMsg(arg0 interface{}) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SendMsg", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -547,11 +610,13 @@ func (m *MockBlobService_GetServer) SendMsg(arg0 interface{}) error {
 
 // SendMsg indicates an expected call of SendMsg
 func (mr *MockBlobService_GetServerMockRecorder) SendMsg(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendMsg", reflect.TypeOf((*MockBlobService_GetServer)(nil).SendMsg), arg0)
 }
 
 // SetHeader mocks base method
 func (m *MockBlobService_GetServer) SetHeader(arg0 metadata.MD) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetHeader", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -559,15 +624,18 @@ func (m *MockBlobService_GetServer) SetHeader(arg0 metadata.MD) error {
 
 // SetHeader indicates an expected call of SetHeader
 func (mr *MockBlobService_GetServerMockRecorder) SetHeader(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetHeader", reflect.TypeOf((*MockBlobService_GetServer)(nil).SetHeader), arg0)
 }
 
 // SetTrailer mocks base method
 func (m *MockBlobService_GetServer) SetTrailer(arg0 metadata.MD) {
+	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "SetTrailer", arg0)
 }
 
 // SetTrailer indicates an expected call of SetTrailer
 func (mr *MockBlobService_GetServerMockRecorder) SetTrailer(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetTrailer", reflect.TypeOf((*MockBlobService_GetServer)(nil).SetTrailer), arg0)
 }
